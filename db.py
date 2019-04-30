@@ -2,13 +2,14 @@ import pymysql
 import sys
 
 class Database:
+    
     def __init__(self):
         # host = "127.0.0.1"
         host = "localhost"
         user = "root"
-        password = "root"
-        db = "StayHome"
-        port = 8889
+        password = "3261098Butis2000"
+        db = "video"
+        port = 3306
 
         self.con = pymysql.connect( host=host, 
                                     user=user, 

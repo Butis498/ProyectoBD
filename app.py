@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request , redirect , url_for
 import logging
 import sys
 
@@ -14,6 +14,7 @@ def index():
 # example!
 @app.route('/cool_form', methods=['GET', 'POST'])
 def cool_form():
+
     if request.method == 'POST':
         # do stuff when the form is submitted
 
@@ -61,7 +62,7 @@ def del_members():
         if request.method == "POST":
             if len(request.form) != 0:
                 member_no = request.form["memberNo"]
-                membs = _db.delete_member(member_no)
+                _db.delete_member(member_no)
         membs = _db.list_members()
         print('Listing all members from normal query', file=sys.stdout)
         return membs

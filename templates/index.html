@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <link rel="stylesheet" type="text/css" href="/static/styles.css">
-  <title>Bases de Datos</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <title>Bases de Datos</title>
 </head>
+
 <body>
-  <h1>University database prototype</h1>
-  <ul>
-    <li>
-      <a href="{{ url_for('members') }}">Get all members from a query or depending on its name or number!</a>
-    </li>
-    <li><a href="{{ url_for('sp_members') }}">Get all members from a stored procedure!</a></li>
-    <li><a href="{{ url_for('top_and_bottom') }}">Get the members with the most and less rents</a></li>
-  </ul>
+    <h1>University database prototype</h1>
+    <ul>
+        <li>
+            <a href="{{ url_for('members') }}">Get all members from a query or depending on its name or number!</a>
+        </li>
+        <li><a href="{{ url_for('sp_members') }}">Get all members from a stored procedure!</a></li>
+        <li><a href="{{ url_for('top_and_bottom') }}">Get the members with the most and less rents</a></li>
+    </ul>
 
 </body>
+
 </html>
