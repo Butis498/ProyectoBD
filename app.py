@@ -2,7 +2,7 @@ from flask import Flask, render_template, request , redirect , url_for
 import logging
 import sys
 
-import db
+import db 
 
 app = Flask(__name__)
 
@@ -36,8 +36,12 @@ def students():
             matricula = request.form["matricula"]
             sex = request.form["sex"]
             dob = request.form["dob"]
-            address = request.form["address"]
-            _db.insert_member(fName, lName, matricula, sex, dob, address)
+            curp = request.form["curp"]
+            telefono = request.form["telefono"]
+            celular = request.form["celular"]
+            carreraID = request.form["carreraID"]
+            direccion = request.form["direccion"]
+            _db.insert_member(fName, lName, matricula, sex, dob,curp,telefono,celular,carreraID, direccion)
             print('Alumno agregado', file=sys.stdout)
 
             membs = _db.list_members()
@@ -56,6 +60,78 @@ def students():
 
     return render_template('students.html', result=res, content_type='application/json')
 
+
+
+
+@app.route('/profesores', methods=["GET", "POST"])
+def profesores():
+    def db_query():
+        _db = db.Database()
+        if request.method == "POST":
+            fName = request.form["fName"]
+            lName = request.form["lName"]
+            matricula = request.form["matricula"]
+            sex = request.form["sex"]
+            dob = request.form["dob"]
+            curp = request.form["curp"]
+            telefono = request.form["telefono"]
+            nomina = request.form["nomina"]
+            celular = request.form["celular"]
+            carreraID = request.form["carreraID"]
+            direccion = request.form["direccion"]
+            _db.insert_profesor(fName, lName, matricula, sex, dob,curp,telefono,nomina,celular,carreraID, direccion)
+            print('Profesor agregado', file=sys.stdout)
+
+            membs = _db.list_profesores()
+            print('Listing all members from normal query', file=sys.stdout)
+            return membs
+
+        else:
+            if request.method == "GET":
+                member_no = request.values.get('nomina', '')
+                member_name = request.values.get('memberName', '')
+                membs = _db.list_profesor(member_no, member_name)
+                print('Listing member given info' + member_no + ' ' + member_name, file=sys.stdout)
+                return membs
+
+    res = db_query()
+
+    return render_template('profesores.html', result=res, content_type='application/json')
+
+
+
+
+@app.route('/departamento', methods=["GET", "POST"])
+def departamento():
+    def db_query():
+        _db = db.Database()
+        if request.method == "POST":
+            ID = request.form["ID"]
+            nombre = request.form["nombre"]
+            numOficina = request.form["numOficina"]
+            telefono = request.form["telefono"]
+            
+            _db.insert_departamento(ID , nombre , numOficina , telefono )
+            print('departamento agregado', file=sys.stdout)
+
+            deps = _db.list_dep()
+            print('Listing all members from normal query', file=sys.stdout)
+            return deps
+
+        else:
+            if request.method == "GET":
+                dep_num = request.values.get('ID', '')
+                dep_name = request.values.get('depName', '')
+                deps = _db.list_deps(dep_num, dep_name)
+                print('Listing member given info' + dep_num + ' ' + dep_name, file=sys.stdout)
+                return deps
+
+    res = db_query()
+
+    return render_template('departamento.html', result=res, content_type='application/json')
+
+
+
 @app.route('/del_members', methods=["POST"])
 def del_members():
     def db_query():
@@ -72,29 +148,43 @@ def del_members():
 
     return render_template('students.html', result=res, content_type='application/json')
 
-@app.route('/spmembers')
-def sp_members():
+
+
+@app.route('/del_profesor', methods=["POST"])
+def del_profesor():
     def db_query():
         _db = db.Database()
-        membs = _db.SP_list_members()
-        print('Listing all members from a Stored Prodecure', file=sys.stdout)
-
+        if request.method == "POST":
+            if len(request.form) != 0:
+                member_no = request.form["matricula"]
+                _db.delete_profesor(member_no)
+        membs = _db.list_profesores()
+        print('Listing all members from normal query', file=sys.stdout)
         return membs
 
     res = db_query()
 
-    return render_template('students.html', result=res, content_type='application/json')
+    return render_template('profesores.html', result=res, content_type='application/json')
 
 
-@app.route('/top_and_bottom')
-def top_and_bottom():
+
+
+
+@app.route('/del_dep', methods=["POST"])
+def del_dep():
     def db_query():
         _db = db.Database()
-        top_n_bot = _db.top_and_bottom_clients()
-        print('Listing top and bottom members depending on their number of rentals', file=sys.stdout)
-
-        return top_n_bot
+        if request.method == "POST":
+            if len(request.form) != 0:
+                dep_id = request.form["ID"]
+                _db.delete_dep(dep_id)
+        dep = _db.list_dep()
+        print('Listing all members from normal query', file=sys.stdout)
+        return dep
 
     res = db_query()
 
-    return render_template('top_and_bottom_clients.html', result=res, content_type='application/json')
+    return render_template('departamento.html', result=res, content_type='application/json')
+
+
+

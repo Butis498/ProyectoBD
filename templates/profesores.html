@@ -7,13 +7,13 @@
 <head>
     <link rel="stylesheet" type="text/css" href="/static/styles.css">
     <meta charset="UTF-8">
-    <title>Alumnos</title>
+    <title>Profesores</title>
 </head>
 
 <body>
-    <h1>Alumnos</h1>
+    <h1>Profesores</h1>
     <div>
-        <form method="POST" action="{{ url_for('students') }}">
+        <form method="POST" action="{{ url_for('profesores') }}">
             <div>
                 <label for="fName">First Name:</label>
                 <input type="text" id="fName" name="fName">
@@ -25,6 +25,11 @@
             <div>
                 <label for="matricula">Matricula:</label>
                 <input type="text" id="matricula" name="matricula">
+            </div>
+
+            <div>
+                <label for="nomina">Nomina:</label>
+                <input type="text" id="nomina" name="nomina">
             </div>
 
             <div>
@@ -68,23 +73,25 @@
     </div>
 
     <hr>
-    <h2>Search student</h2>
+    <h2>Search profesor</h2>
     <div class="inputs">
-        <form method="GET" action="{{ url_for('students') }}">
+        <form method="GET" action="{{ url_for('profesores') }}">
             <!--Cambiar aqui-->
-            <label for="matricula">No:</label>
-            <input type="text" id="matricula" name="matricula">
+            <label for="nomina">No nomina:</label>
+            <input type="text" id="nomina" name="nomina">
             <label for="memberName">Name:</label>
             <input type="text" id="memberName" name="memberName">
             <input type="submit" value="Submit">
         </form>
     </div>
-    <table id="Alumnos" style="width:100%">
+    <table id="Profesores" style="width:100%">
         {% if result %}
         <tr>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Matricula</th>
+            <th>nomina</th>
+
             <th>telefono</th>
             <th>celular</th>
             <th>carreraID</th>
@@ -98,6 +105,8 @@
             <td> {{ row.fName }}</td>
             <td> {{ row.lName }}</td>
             <td> {{ row.matricula }}</td>
+            <td> {{ row.nomina }}</td>
+
             <td> {{ row.telefono }}</td>
             <td> {{ row.celular }}</td>
             <td> {{ row.curp }}</td>
@@ -112,8 +121,8 @@
 
     <hr>
 
-    <h2>Borrar Alumno</h2>
-    <form method="POST" action="{{ url_for('del_members') }}">
+    <h2>Borrar Profesor</h2>
+    <form method="POST" action="{{ url_for('del_profesor') }}">
         <!--Cambiar aqui-->
         <div>
             <label for="matricula">No Matricula:</label>
