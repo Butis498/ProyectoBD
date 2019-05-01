@@ -26,18 +26,19 @@ def cool_form():
     return render_template('cool_form.html')
 
 
-@app.route('/members', methods=["GET", "POST"])
-def members():
+@app.route('/students', methods=["GET", "POST"])
+def students():
     def db_query():
         _db = db.Database()
         if request.method == "POST":
             fName = request.form["fName"]
             lName = request.form["lName"]
+            matricula = request.form["matricula"]
             sex = request.form["sex"]
             dob = request.form["dob"]
             address = request.form["address"]
-            _db.insert_member(fName, lName, sex, dob, address)
-            print('Member inserted', file=sys.stdout)
+            _db.insert_member(fName, lName, matricula, sex, dob, address)
+            print('Alumno agregado', file=sys.stdout)
 
             membs = _db.list_members()
             print('Listing all members from normal query', file=sys.stdout)
@@ -45,7 +46,7 @@ def members():
 
         else:
             if request.method == "GET":
-                member_no = request.values.get('memberNo', '')
+                member_no = request.values.get('matricula', '')
                 member_name = request.values.get('memberName', '')
                 membs = _db.list_member(member_no, member_name)
                 print('Listing member given info' + member_no + ' ' + member_name, file=sys.stdout)
@@ -53,7 +54,7 @@ def members():
 
     res = db_query()
 
-    return render_template('members.html', result=res, content_type='application/json')
+    return render_template('students.html', result=res, content_type='application/json')
 
 @app.route('/del_members', methods=["POST"])
 def del_members():
@@ -61,7 +62,7 @@ def del_members():
         _db = db.Database()
         if request.method == "POST":
             if len(request.form) != 0:
-                member_no = request.form["memberNo"]
+                member_no = request.form["matricula"]
                 _db.delete_member(member_no)
         membs = _db.list_members()
         print('Listing all members from normal query', file=sys.stdout)
@@ -69,7 +70,7 @@ def del_members():
 
     res = db_query()
 
-    return render_template('members.html', result=res, content_type='application/json')
+    return render_template('students.html', result=res, content_type='application/json')
 
 @app.route('/spmembers')
 def sp_members():
@@ -82,7 +83,7 @@ def sp_members():
 
     res = db_query()
 
-    return render_template('members.html', result=res, content_type='application/json')
+    return render_template('students.html', result=res, content_type='application/json')
 
 
 @app.route('/top_and_bottom')

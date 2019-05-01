@@ -37,7 +37,7 @@ class Database:
                 FROM Member
                 '''
         if member_no != '':
-            query += 'WHERE memberNo = {}'.format(member_no)
+            query += 'WHERE matricula = {}'.format(member_no)
             if member_name != '':
                 query += 'AND fName = \'{}\''.format(member_name)
         elif member_name != '':
@@ -50,9 +50,9 @@ class Database:
         return result
 
 
-    def insert_member(self, fName, lName, sex, dob, address):
+    def insert_member(self, fName, lName, matricula, sex, dob, address):
         query = '''
-                INSERT INTO Member (fName, lName, sex, DOB, address, dateJoined)
+                INSERT INTO Member (fName, lName,matricula, sex, DOB, address, dateJoined)
                 VALUES ('{}', '{}', '{}', '{}', '{}', NOW())
                 '''.format(fName, lName, sex, dob, address)
         print('Query: {}'.format(query), file=sys.stdout)
@@ -63,7 +63,7 @@ class Database:
     def delete_member(self, member_no):
         query = '''
                 DELETE FROM Member
-                WHERE memberNo = {}
+                WHERE matricula = {}
                 '''.format(member_no)
         print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
@@ -82,25 +82,25 @@ class Database:
                 select CONCAT(fName,' ',lName) Nombre,
                        'Con mas videos rentados' AS Posicion
                 from Member
-                where memberNo in
-                (select memberNo
+                where matricula in
+                (select matricula
                 from RentalAgreement
-                group by memberNo
+                group by matricula
                 having count(videoNo) >= all
                           (select count(videoNo)
                            from RentalAgreement
-                           group by memberNo))
+                           group by matricula))
                 UNION
                 select CONCAT(fName,' ',lName)Nombre, 'Con menos videos rentados' AS Posicion
                 from Member
-                where memberNo in
-                (select memberNo
+                where matricula in
+                (select matricula
                 from RentalAgreement
-                group by memberNo
+                group by matricula
                 having count(videoNo) <= all
                           (select count(videoNo)
                            from RentalAgreement
-                           group by memberNo))
+                           group by matricula))
                 '''
         print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)

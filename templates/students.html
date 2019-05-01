@@ -7,13 +7,13 @@
 <head>
     <link rel="stylesheet" type="text/css" href="/static/styles.css">
     <meta charset="UTF-8">
-    <title>Members</title>
+    <title>Alumnos</title>
 </head>
 
 <body>
-    <h1>Student</h1>
+    <h1>Alumnos</h1>
     <div>
-        <form method="POST" action="{{ url_for('members') }}">
+        <form method="POST" action="{{ url_for('students') }}">
             <div>
                 <label for="fName">First Name:</label>
                 <input type="text" id="fName" name="fName">
@@ -21,6 +21,10 @@
             <div>
                 <label for="lName">Last Name:</label>
                 <input type="text" id="lName" name="lName">
+            </div>
+            <div>
+                <label for="matricula">Matricula:</label>
+                <input type="text" id="matricula" name="matricula">
             </div>
             <div>
                 <label class="radio">
@@ -40,10 +44,7 @@
                 <label for="address">Address:</label>
                 <input type="text" id="address" name="address">
             </div>
-            <div>
-                <label for="matricula">Matricula:</label>
-                <input type="text" id="matricula" name="matricula">
-            </div>
+
             <input type="submit" value="Insert">
         </form>
     </div>
@@ -51,29 +52,31 @@
     <hr>
     <h2>Search student</h2>
     <div class="inputs">
-        <form method="GET" action="{{ url_for('members') }}">
-            <label for="memberNo">No:</label>
-            <input type="text" id="memberNo" name="memberNo">
+        <form method="GET" action="{{ url_for('students') }}">
+            <!--Cambiar aqui-->
+            <label for="matricula">No:</label>
+            <input type="text" id="matricula" name="matricula">
             <label for="memberName">Name:</label>
             <input type="text" id="memberName" name="memberName">
             <input type="submit" value="Submit">
         </form>
     </div>
-    <table id="members" style="width:100%">
+    <table id="Alumnos" style="width:100%">
         {% if result %}
         <tr>
-            <th>MemberNo</th>
             <th>First Name</th>
             <th>Last Name</th>
+            <th>Matricula</th>
+
             <th>sex</th>
             <th>Address</th>
             <th>Date Joined</th>
         </tr>
         {% for row in result %}
         <tr>
-            <td> {{ row.memberNo }}</td>
             <td> {{ row.fName }}</td>
             <td> {{ row.lName }}</td>
+            <td> {{ row.matricula }}</td>
             <td> {{ row.sex }}</td>
             <td> {{ row.address }}</td>
             <td> {{ row.dateJoined }}</td>
@@ -83,11 +86,12 @@
 
     <hr>
 
-    <h2>delete member</h2>
+    <h2>Borrar Alumno</h2>
     <form method="POST" action="{{ url_for('del_members') }}">
+        <!--Cambiar aqui-->
         <div>
-            <label for="memberNo">Member No:</label>
-            <input type="text" id="memberNo" name="memberNo">
+            <label for="matricula">No Matricula:</label>
+            <input type="text" id="matricula" name="matricula">
             <input type="submit" value="Submit">
         </div>
     </form>
