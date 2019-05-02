@@ -139,6 +139,8 @@ class Database:
 
 
     def delete_member(self, member_no):
+
+        member_no = ("'"+  member_no +"'")
         query = '''
                 DELETE FROM Alumno
                 WHERE matricula = {}
@@ -148,6 +150,7 @@ class Database:
         self.con.commit()
 
     def delete_profesor(self, member_no):
+        
         query = '''
                 DELETE FROM Profesores
                 WHERE matricula = {}
