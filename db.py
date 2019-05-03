@@ -55,6 +55,8 @@ class Database:
         return result
 
     def list_member(self, member_no, member_name):
+        member_name = ("'"+ member_name + "'")
+
         query = '''
                 SELECT *
                 FROM Alumno
@@ -74,6 +76,8 @@ class Database:
 
 
     def list_profesor(self, member_no, member_name):
+        member_name = ("'"+ member_name + "'")
+
         query = '''
                 SELECT *
                 FROM Profesores
@@ -92,6 +96,7 @@ class Database:
         return result
 
     def list_deps(self, dep_num, dep_name):
+        dep_name = ("'"+ dep_name + "'")
         query = '''
                 SELECT *
                 FROM Departamento
@@ -111,6 +116,7 @@ class Database:
 
 
     def insert_member(self, fName, lName, matricula, sex, dob, curp, telefono, celular, carreraID, direccion):
+        direccion = ("'"+ direccion + "'")
         query = '''
                 INSERT INTO Alumno (fName, lName, matricula, sex, dob,curp,telefono,celular,carreraID, direccion)
                 VALUES ('{}', '{}', '{}', '{}', '{}','{}', '{}', '{}', '{}', '{}')
@@ -120,6 +126,8 @@ class Database:
         self.con.commit()
 
     def insert_profesor(self, fName, lName, matricula, sex, dob, curp, telefono,nomina, celular, carreraID, direccion):
+        direccion = ("'"+ direccion + "'")
+
         query = '''
                 INSERT INTO Profesores (fName, lName, matricula, sex, dob,curp,telefono,nomina,celular,carreraID, direccion)
                 VALUES ('{}', '{}', '{}', '{}', '{}','{}', '{}', '{}', '{}', '{}', '{}')
