@@ -61,6 +61,28 @@ def students():
     return render_template('students.html', result=res, content_type='application/json')
 
 
+@app.route('/curso_por_alumno' , methods=["GET", "POST"])
+def curso_por_alumno():
+    def db_query():
+        _db = db.Database()
+        if request.method == "POST":
+            cursos = _db.list_cur() 
+            return cursos
+        else:
+            if request.method == "GET":
+                print('Antes')
+                matricula = request.values.get('matricula', '')
+                cursos = _db.list_cursos(matricula)
+                return cursos
+    res = db_query()
+
+    return render_template('curso_por_alumno.html', result=res, content_type='application/json')
+
+
+
+                
+
+
 
 
 @app.route('/profesores', methods=["GET", "POST"])

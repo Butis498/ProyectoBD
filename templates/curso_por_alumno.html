@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+
+</style>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <meta charset="UTF-8">
+    <title>curso por alumno</title>
+</head>
+
+<body>
+    <div>
+        <form method="GET" action="{{ url_for('curso_por_alumno')}}">
+            <div>
+                <label for="matricula">No matricula:</label>
+                <input type="text" id="matricula" name="matricula">
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+
+
+    <hr>
+    <table id="curso_por_alumno" style="width:100%">
+        {% if result %}
+        <tr>
+            <th>curso</th>
+        </tr>
+        {% for row in result %}
+        <tr>
+            <td> {{ row.cursos }}</td>
+        </tr>
+        {% endfor %} {% endif %}
+    </table>
+</body>
+
+</html>

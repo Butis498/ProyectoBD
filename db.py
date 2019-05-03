@@ -43,6 +43,17 @@ class Database:
         return result
 
 
+    def list_cur(self):
+        query = '''
+                SELECT * 
+                FROM CursoPorAlumno
+                '''
+        print('Query: {}'.format(query), file=sys.stdout)
+        self.cur.execute(query)
+        result = self.cur.fetchall()
+
+        return result
+
     def list_dep(self):
         query = '''
                 SELECT * 
@@ -88,6 +99,24 @@ class Database:
                 query += 'AND fName = \'{}\''.format(member_name)
         elif member_name != '':
             query += 'WHERE fName = \'{}\''.format(member_name)
+
+        print('Query: {}'.format(query), file=sys.stdout)
+        self.cur.execute(query)
+        result = self.cur.fetchall()
+
+        return result
+
+    def list_cursos(self, matricula):
+        matricula = ("'"+ matricula + "'")
+
+        query = '''
+                SELECT c.nombre
+                FROM Curso c, Alumno a , CursoPorAlumno ca
+                WHERE c.ID = ca.cursoID AND ca.matriculaAlumno = a.matricula 
+                '''
+        if matricula != '':
+            query += 'AND a.matricula = {}'.format(matricula)
+            
 
         print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
