@@ -1,3 +1,9 @@
+drop DATABASE TecMtyDatabase;
+
+
+CREATE DATABASE TecMtyDatabase;
+
+
 
 USE TecMtyDatabase;
 
@@ -6,7 +12,7 @@ CREATE TABLE Departamento
 	ID INT NOT NULL,
 	nombre VARCHAR(50) NOT NULL,
 	numOficina INT,
-	telefono INT,
+	telefono VARCHAR(30),
 	PRIMARY KEY(ID)
 );
 
@@ -20,27 +26,47 @@ CREATE TABLE Carrera
 	FOREIGN KEY(departamentoID) REFERENCES Departamento(ID)
 );
 
+CREATE TABLE Profesores
+(
+	matricula VARCHAR(15) NOT NULL,
+	curp VARCHAR(20) NOT NULL UNIQUE,
+	fName VARCHAR(15) NOT NULL,
+	lName VARCHAR(15) NOT NULL,
+	sex CHAR(1),
+	DOB DATETIME,
+	direccion VARCHAR(100),
+	telefono VARCHAR(30),
+	nomina INT not null UNIQUE,
+	celular INT,
+	carreraID INT NOT NULL,
+	PRIMARY KEY(matricula),
+	FOREIGN KEY(carreraID) REFERENCES Carrera(ID)
+
+
+);
+
 CREATE TABLE Curso
 (
 	ID INT NOT NULL,
-	carreraID INT NOT NULL,
+	departamentoID INT NOT NULL,
 	nombre VARCHAR(50) NOT NULL,
 	hrsSemanal INT,
 	planSemestre INT,
 	descripcion VARCHAR(200),
+	numGrupo int not null,
 	PRIMARY KEY(ID),
-	FOREIGN KEY(carreraID) REFERENCES Carrera(ID),
+	FOREIGN KEY(departamentoID) REFERENCES Departamento(ID)
 );
-
-
-
 CREATE TABLE Grupo
 (
-	ID numeric PRIMARY KEY REFERENCES Curso(ID) ON DELETE CASCADE,
+	ID int not null  ,
+	cursoID int not null,
 	semestre INT NOT NULL,
 	año INT NOT NULL,
 	rECOA INT,
-	numGrupo INT NOT NULL
+	numGrupo INT NOT NULL,
+	PRIMARY KEY (ID),
+	FOREIGN key (cursoID) REFERENCES Curso(ID)
 );
 
 
@@ -53,8 +79,8 @@ CREATE TABLE Alumno
 	sex CHAR(1),
 	DOB DATETIME,
 	direccion VARCHAR(100),
-	telefono INT,
-	celular INT,
+	telefono VARCHAR(30),
+	celular VARCHAR(30),
 	carreraID INT NOT NULL,
 	PRIMARY KEY(matricula),
 	FOREIGN KEY(carreraID) REFERENCES Carrera(ID)
@@ -71,31 +97,26 @@ CREATE TABLE CursoPorAlumno
 		FOREIGN key (cursoID) REFERENCES Curso(ID)
 );
 
-CREATE TABLE Profesores
-(
-	matricula VARCHAR(15) NOT NULL,
-	curp VARCHAR(20) NOT NULL UNIQUE,
-	fName VARCHAR(15) NOT NULL,
-	lName VARCHAR(15) NOT NULL,
-	sex CHAR(1),
-	DOB DATETIME,
-	direccion VARCHAR(100),
-	telefono INT,
-	nomina INT,
-	celular INT,
-	carreraID INT NOT NULL,
-	PRIMARY KEY(matricula),
-	FOREIGN KEY(carreraID) REFERENCES Carrera(ID)
 
-
-);
 
 CREATE TABLE HorasLibresProfesores
 (
 	ID  int NOT NULL AUTO_INCREMENT,
 	dia char(1) NOT NULL,
 	hora INT NOT NULL,
-	profesorMatricula INT NOT NULL REFERENCES Profesores(matricula) ON DELETE CASCADE,
-	PRIMARY KEY (ID)
+	profesorMatricula VARCHAR(9) NOT NULL ,
+	PRIMARY KEY (ID),
+	FOREIGN key  (profesorMatricula) REFERENCES Profesores(matricula) 
+	
 );
 
+CREATE TABLE CursoPorProfesor(
+	matriculaProfesor VARCHAR(9) not null,
+	cursoID int not null,
+	ID int NOT NULL AUTO_INCREMENT,
+	PRIMARY key (ID),
+	FOREIGN key (cursoID) REFERENCES Curso(ID),
+	FOREIGN Key (matriculaProfesor) REFERENCES Profesores(matricula)
+ 
+
+);

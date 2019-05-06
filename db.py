@@ -31,6 +31,18 @@ class Database:
 
         return result
 
+    def list_datos(self):
+        query = '''
+                SELECT p.nomina , p.fName , c.nombre
+                FROM Profesores p , Curso c, CursoPorProfesor cpp
+                WHERE p.matricula = cpp.matriculaProfesor AND c.ID = cpp.cursoID
+                '''
+        print('Query: {}'.format(query), file=sys.stdout)
+        self.cur.execute(query)
+        result = self.cur.fetchall()
+
+        return result
+
     def list_profesores(self):
         query = '''
                 SELECT * 
@@ -123,6 +135,26 @@ class Database:
         result = self.cur.fetchall()
 
         return result
+
+        
+
+    def list_dato(self, nomina):
+
+        query = '''
+                SELECT p.nomina , p.fName , c.nombre
+                FROM Profesores p , Curso c, CursoPorProfesor cpp
+                WHERE p.matricula = cpp.matriculaProfesor AND c.ID = cpp.cursoID
+                '''
+        if nomina != '':
+            query += 'AND p.nomina = {}'.format(nomina)
+    
+
+        print('Query: {}'.format(query), file=sys.stdout)
+        self.cur.execute(query)
+        result = self.cur.fetchall()
+
+        return result
+
 
     def list_deps(self, dep_num, dep_name):
         dep_name = ("'"+ dep_name + "'")

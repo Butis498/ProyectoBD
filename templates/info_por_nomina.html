@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+
+</style>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <meta charset="UTF-8">
+    <title>datos por nomina</title>
+</head>
+
+<body>
+    <div>
+        <form method="GET" action="{{ url_for('info_por_nomina')}}">
+            <div>
+                <label for="nomina">No nomina:</label>
+                <input type="text" id="nomina" name="nomina">
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+
+
+    <hr>
+    <table id="info_por_nomina" style="width:100%">
+        {% if result %}
+        <tr>
+            <th>nomina</th>
+            <th>fName</th>
+            <th>curso</th>
+        </tr>
+        {% for row in result %}
+        <tr>
+            <td> {{ row.nomina }}</td>
+            <td> {{ row.fName }}</td>
+            <td> {{ row.cursos }}</td>
+        </tr>
+        {% endfor %} {% endif %}
+    </table>
+</body>
+
+</html>

@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request , redirect , url_for
+from flask import Flask, render_template, request, redirect, url_for
 import logging
 import sys
 
-import db 
+import db
 
 app = Flask(__name__)
 
@@ -41,7 +41,8 @@ def students():
             celular = request.form["celular"]
             carreraID = request.form["carreraID"]
             direccion = request.form["direccion"]
-            _db.insert_member(fName, lName, matricula, sex, dob,curp,telefono,celular,carreraID, direccion)
+            _db.insert_member(fName, lName, matricula, sex, dob,
+                              curp, telefono, celular, carreraID, direccion)
             print('Alumno agregado', file=sys.stdout)
 
             membs = _db.list_members()
@@ -53,7 +54,8 @@ def students():
                 member_no = request.values.get('matricula', '')
                 member_name = request.values.get('memberName', '')
                 membs = _db.list_member(member_no, member_name)
-                print('Listing member given info' + member_no + ' ' + member_name, file=sys.stdout)
+                print('Listing member given info' + member_no +
+                      ' ' + member_name, file=sys.stdout)
                 return membs
 
     res = db_query()
@@ -61,16 +63,15 @@ def students():
     return render_template('students.html', result=res, content_type='application/json')
 
 
-@app.route('/curso_por_alumno' , methods=["GET", "POST"])
+@app.route('/curso_por_alumno', methods=["GET", "POST"])
 def curso_por_alumno():
     def db_query():
         _db = db.Database()
         if request.method == "POST":
-            cursos = _db.list_cur() 
+            cursos = _db.list_cur()
             return cursos
         else:
             if request.method == "GET":
-                print('Antes')
                 matricula = request.values.get('matricula', '')
                 cursos = _db.list_cursos(matricula)
                 return cursos
@@ -79,10 +80,21 @@ def curso_por_alumno():
     return render_template('curso_por_alumno.html', result=res, content_type='application/json')
 
 
+@app.route('/info_por_nomina', methods=["GET", "POST"])
+def info_por_nomina():
+    def db_query():
+        _db = db.Database()
+        if request.method == "POST":
+                datos = _db.list_datos()
+                return datos
+        else:
+            if request.method == "GET":
+                matricula = request.values.get('nomina', '')
+                datos = _db.list_dato(matricula)
+                return datos
+    res = db_query()
 
-                
-
-
+    return render_template('info_por_nomina.html', result=res, content_type='application/json')
 
 
 @app.route('/profesores', methods=["GET", "POST"])
@@ -101,7 +113,8 @@ def profesores():
             celular = request.form["celular"]
             carreraID = request.form["carreraID"]
             direccion = request.form["direccion"]
-            _db.insert_profesor(fName, lName, matricula, sex, dob,curp,telefono,nomina,celular,carreraID, direccion)
+            _db.insert_profesor(fName, lName, matricula, sex, dob,
+                                curp, telefono, nomina, celular, carreraID, direccion)
             print('Profesor agregado', file=sys.stdout)
 
             membs = _db.list_profesores()
@@ -113,14 +126,13 @@ def profesores():
                 member_no = request.values.get('nomina', '')
                 member_name = request.values.get('memberName', '')
                 membs = _db.list_profesor(member_no, member_name)
-                print('Listing member given info' + member_no + ' ' + member_name, file=sys.stdout)
+                print('Listing member given info' + member_no +
+                      ' ' + member_name, file=sys.stdout)
                 return membs
 
     res = db_query()
 
     return render_template('profesores.html', result=res, content_type='application/json')
-
-
 
 
 @app.route('/departamento', methods=["GET", "POST"])
@@ -132,8 +144,8 @@ def departamento():
             nombre = request.form["nombre"]
             numOficina = request.form["numOficina"]
             telefono = request.form["telefono"]
-            
-            _db.insert_departamento(ID , nombre , numOficina , telefono )
+
+            _db.insert_departamento(ID, nombre, numOficina, telefono)
             print('departamento agregado', file=sys.stdout)
 
             deps = _db.list_dep()
@@ -145,13 +157,13 @@ def departamento():
                 dep_num = request.values.get('ID', '')
                 dep_name = request.values.get('depName', '')
                 deps = _db.list_deps(dep_num, dep_name)
-                print('Listing member given info' + dep_num + ' ' + dep_name, file=sys.stdout)
+                print('Listing member given info' + dep_num +
+                      ' ' + dep_name, file=sys.stdout)
                 return deps
 
     res = db_query()
 
     return render_template('departamento.html', result=res, content_type='application/json')
-
 
 
 @app.route('/del_members', methods=["POST"])
@@ -171,7 +183,6 @@ def del_members():
     return render_template('students.html', result=res, content_type='application/json')
 
 
-
 @app.route('/del_profesor', methods=["POST"])
 def del_profesor():
     def db_query():
@@ -189,9 +200,6 @@ def del_profesor():
     return render_template('profesores.html', result=res, content_type='application/json')
 
 
-
-
-
 @app.route('/del_dep', methods=["POST"])
 def del_dep():
     def db_query():
@@ -207,6 +215,3 @@ def del_dep():
     res = db_query()
 
     return render_template('departamento.html', result=res, content_type='application/json')
-
-
-
