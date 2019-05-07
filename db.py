@@ -178,6 +178,7 @@ class Database:
         self.cur.execute(query)
         result = self.cur.fetchall()
 
+
         return result
 
     def list_hora(self, nomina):
@@ -222,12 +223,12 @@ class Database:
         self.cur.execute(query)
         self.con.commit()
 
-    def insert_profesor(self, fName, lName, matricula, sex, DOB, curp, telefono, nomina,  departamentoID, direccion):
+    def insert_profesor(self, fName, lName, matricula, sex, DOB, curp, telefono, nomina,  departamentoID, direccion , grupoID):
 
         query = '''
-                INSERT INTO Profesores (fName, lName, matricula, sex, DOB,curp,telefono,nomina,departamentoID, direccion)
-                VALUES ('{}', '{}', '{}', '{}', '{}','{}', '{}', '{}', '{}', \'{}\')
-                '''.format(fName, lName, matricula, sex, DOB, curp, telefono, nomina, departamentoID, direccion)
+                INSERT INTO Profesores (fName, lName, matricula, sex, DOB,curp,telefono,nomina,departamentoID, direccion , grupoID)
+                VALUES ('{}', '{}', '{}', '{}', '{}','{}', '{}', '{}', '{}', \'{}\', '{}' )
+                '''.format(fName, lName, matricula, sex, DOB, curp, telefono, nomina, departamentoID, direccion , grupoID)
         print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         self.con.commit()

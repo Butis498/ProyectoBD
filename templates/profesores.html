@@ -53,6 +53,10 @@
                 <label for="departamentoID">departamentoID:</label>
                 <input type="text" id="departamentoID" name="departamentoID">
             </div>
+            <div>
+                <label for="grupoID">grupo ID:</label>
+                <input type="text" id="grupoID" name="grupoID">
+            </div>
 
             <div>
                 <label class="radio">
@@ -96,6 +100,7 @@
             <th>sex</th>
             <th>Address</th>
             <th>DOB</th>
+            <th>grupoID</th>
 
         </tr>
         {% for row in result %}
@@ -113,6 +118,7 @@
             <td> {{ row.sex }}</td>
             <td> {{ row.direccion }}</td>
             <td> {{ row.DOB }}</td>
+            <td> {{ row.grupoID }}</td>
 
         </tr>
         {% endfor %} {% endif %}
