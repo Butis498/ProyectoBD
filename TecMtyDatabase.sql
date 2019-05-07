@@ -1,8 +1,7 @@
-drop DATABASE TecMtyDatabase;
 
+Drop DATABASE TecMtyDatabase;
 
-CREATE DATABASE TecMtyDatabase;
-
+create DATABASE TecMtyDatabase;
 
 
 USE TecMtyDatabase;
@@ -37,12 +36,9 @@ CREATE TABLE Profesores
 	direccion VARCHAR(100),
 	telefono VARCHAR(30),
 	nomina INT not null UNIQUE,
-	celular INT,
-	carreraID INT NOT NULL,
+	departamentoID INT NOT NULL,
 	PRIMARY KEY(matricula),
-	FOREIGN KEY(carreraID) REFERENCES Carrera(ID)
-
-
+	FOREIGN KEY(departamentoID) REFERENCES Departamento(ID)
 );
 
 CREATE TABLE Curso
@@ -53,19 +49,17 @@ CREATE TABLE Curso
 	hrsSemanal INT,
 	planSemestre INT,
 	descripcion VARCHAR(200),
-	numGrupo int not null,
 	PRIMARY KEY(ID),
 	FOREIGN KEY(departamentoID) REFERENCES Departamento(ID)
 );
 CREATE TABLE Grupo
 (
-	ID int not null  ,
+	GrupoID int not null  ,
 	cursoID int not null,
 	semestre INT NOT NULL,
 	año INT NOT NULL,
 	rECOA INT,
-	numGrupo INT NOT NULL,
-	PRIMARY KEY (ID),
+	PRIMARY KEY (GrupoID),
 	FOREIGN key (cursoID) REFERENCES Curso(ID)
 );
 
