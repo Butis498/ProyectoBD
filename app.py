@@ -145,11 +145,10 @@ def profesores():
             nomina = request.form["nomina"]
             departamentoID = request.form["departamentoID"]
             direccion = request.form["direccion"]
-            grupoID = request.form["grupoID"]
             _db.insert_profesor(fName, lName, matricula, sex, DOB,
-                                curp, telefono, nomina, departamentoID, direccion , grupoID)
+                                curp, telefono, nomina, departamentoID, direccion )
 
-            membs = _db.list_profesores()
+            membs = _db.list_profesores() 
             return membs
 
         else:

@@ -166,7 +166,7 @@ class Database:
         query = '''
                 SELECT g.rECOA , c.ID , c.nombre , g.GrupoID , g.semestre ,g.año
                 FROM Grupo g, Profesores p, Curso c , CursoPorProfesor cpp 
-                WHERE g.cursoID = c.ID AND  p.grupoID = g.GrupoID AND p.matricula = cpp.matriculaProfesor
+                WHERE g.cursoID = c.ID AND  p.matricula = g.profeMatricula AND p.matricula = cpp.matriculaProfesor
                 '''
         if nomina != '':
             query += 'AND p.nomina = {}'.format(nomina)
@@ -223,12 +223,12 @@ class Database:
         self.cur.execute(query)
         self.con.commit()
 
-    def insert_profesor(self, fName, lName, matricula, sex, DOB, curp, telefono, nomina,  departamentoID, direccion , grupoID):
+    def insert_profesor(self, fName, lName, matricula, sex, DOB, curp, telefono, nomina,  departamentoID, direccion ):
 
         query = '''
-                INSERT INTO Profesores (fName, lName, matricula, sex, DOB,curp,telefono,nomina,departamentoID, direccion , grupoID)
-                VALUES ('{}', '{}', '{}', '{}', '{}','{}', '{}', '{}', '{}', \'{}\', '{}' )
-                '''.format(fName, lName, matricula, sex, DOB, curp, telefono, nomina, departamentoID, direccion , grupoID)
+                INSERT INTO Profesores (fName, lName, matricula, sex, DOB,curp,telefono,nomina,departamentoID, direccion )
+                VALUES ('{}', '{}', '{}', '{}', '{}','{}', '{}', '{}', '{}', \'{}\' )
+                '''.format(fName, lName, matricula, sex, DOB, curp, telefono, nomina, departamentoID, direccion )
         print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         self.con.commit()

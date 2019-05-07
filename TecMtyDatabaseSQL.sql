@@ -36,18 +36,6 @@ CREATE TABLE Curso
 	PRIMARY KEY(ID),
 	FOREIGN KEY(departamentoID) REFERENCES Departamento(ID)
 );
-
-CREATE TABLE Grupo
-(
-	GrupoID int not null  ,
-	cursoID int not null,
-	semestre VARCHAR(20) NOT NULL,
-	año INT NOT NULL,
-	rECOA INT,
-	PRIMARY KEY (GrupoID),
-	FOREIGN key (cursoID) REFERENCES Curso(ID)
-);
-
 CREATE TABLE Profesores
 (
 	matricula VARCHAR(15) NOT NULL,
@@ -60,10 +48,22 @@ CREATE TABLE Profesores
 	telefono VARCHAR(30),
 	nomina INT not null UNIQUE,
 	departamentoID INT NOT NULL,
-	grupoID int not null,
 	PRIMARY KEY(matricula),
-	FOREIGN KEY(departamentoID) REFERENCES Departamento(ID),
-	FOREIGN key(grupoID) REFERENCES Grupo (GrupoID)
+	FOREIGN KEY(departamentoID) REFERENCES Departamento(ID)
+);
+
+
+CREATE TABLE Grupo
+(
+	GrupoID int not null ,
+	cursoID int not null,
+	semestre VARCHAR(20) NOT NULL,
+	año INT NOT NULL,
+	rECOA INT null,
+	profeMatricula VARCHAR(15) not null,
+	PRIMARY KEY (GrupoID),
+	FOREIGN key (cursoID) REFERENCES Curso(ID),
+	FOREIGN KEY (profeMatricula) REFERENCES Profesores(matricula)
 );
 
 
@@ -185,37 +185,37 @@ CREATE TABLE CursoPorAlumno
 				(ID, departamentoID, nombre, hrsSemanal, planSemestre, descripcion)
 			VALUES
 				(3, 3, 'Matematicas para Licenciados', 4, 1, 'Este curso es de mates para ingenieros en primer semestre y dura 4 horas semanales.');
-
-			INSERT INTO Grupo
-				(GrupoID, cursoID, semestre, año, rECOA)
+	INSERT INTO Profesores
+				(matricula, curp, fName, lName, sex, DOB, direccion, telefono, nomina, departamentoID )
 			VALUES
-				(1, 1, 'Fall', 2016, 90);
-
-			INSERT INTO Grupo
-				(GrupoID, cursoID, semestre, año, rECOA)
-			VALUES
-				(2, 1, 'Spring', 2017, 80);
-
-			INSERT INTO Grupo
-				(GrupoID, cursoID, semestre, año, rECOA)
-			VALUES
-				(3, 1, 'Summer', 2017, 95);
+				('L0012345', 'CACX485820', 'Esteban', 'Dido', 'M', '1990-7-04', 'x dirección', '81-1234-1234', 1234, 1 );
 
 			INSERT INTO Profesores
-				(matricula, curp, fName, lName, sex, DOB, direccion, telefono, nomina, departamentoID , grupoID)
+				(matricula, curp, fName, lName, sex, DOB, direccion, telefono, nomina, departamentoID)
 			VALUES
-				('L0012345', 'CACX485820', 'Esteban', 'Dido', 'M', '1990-7-04', 'x dirección', '81-1234-1234', 1234, 1 ,1);
+				('L0067890', 'YOLO485820', 'Marco', 'Farias', 'M', '1996-3-01', 'x dirección', '81-1234-1234', 4321, 2 );
 
 			INSERT INTO Profesores
-				(matricula, curp, fName, lName, sex, DOB, direccion, telefono, nomina, departamentoID, grupoID)
+				(matricula, curp, fName, lName, sex, DOB, direccion, telefono, nomina, departamentoID )
 			VALUES
-				('L0067890', 'YOLO485820', 'Marco', 'Farias', 'M', '1996-3-01', 'x dirección', '81-1234-1234', 4321, 2 , 2);
+				('L0055345', 'WOWO485820', 'Elba', 'Nanero', 'F', '1980-7-25', 'x dirección', '81-1234-1234', 6234, 3 );
 
-			INSERT INTO Profesores
-				(matricula, curp, fName, lName, sex, DOB, direccion, telefono, nomina, departamentoID , grupoID)
+			INSERT INTO Grupo
+				(GrupoID, cursoID, semestre, año, rECOA , profeMatricula)
 			VALUES
-				('L0055345', 'WOWO485820', 'Elba', 'Nanero', 'F', '1980-7-25', 'x dirección', '81-1234-1234', 6234, 3 , 3);
+				(1, 1, 'Fall', 2016, 90 , 'L0055345');
 
+			INSERT INTO Grupo
+				(GrupoID, cursoID, semestre, año, rECOA , profeMatricula)
+			VALUES
+				(2, 1, 'Spring', 2017, 80, 'L0012345' );
+
+			INSERT INTO Grupo
+				(GrupoID, cursoID, semestre, año, rECOA , profeMatricula )
+			VALUES
+				(3, 1, 'Summer', 2017, 95 , 'L0067890');
+
+		
 
 			INSERT INTO Alumno
 				(matricula, curp, fName, lName, sex, DOB, direccion, telefono, celular, carreraID)
