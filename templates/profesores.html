@@ -33,12 +33,12 @@
             </div>
 
             <div>
-                <label for="dob">Date of Birth:</label>
-                <input type="date" id="dob" name="dob">
+                <label for="DOB">Date of Birth:</label>
+                <input type="date" id="DOB" name="DOB">
             </div>
             <div>
-                <label for="address">Address:</label>
-                <input type="text" id="address" name="address">
+                <label for="direccion">Address:</label>
+                <input type="text" id="direccion" name="direccion">
             </div>
             <div>
                 <label for="curp">Curp:</label>
@@ -48,13 +48,10 @@
                 <label for="telefono">Telefono:</label>
                 <input type="number" id="telefono" name="telefono">
             </div>
+
             <div>
-                <label for="celular">Celular:</label>
-                <input type="number" id="celular" name="celular">
-            </div>
-            <div>
-                <label for="carrera">Carrera:</label>
-                <input type="text" id="carrera" name="carrera">
+                <label for="departamentoID">departamentoID:</label>
+                <input type="text" id="departamentoID" name="departamentoID">
             </div>
 
             <div>
@@ -77,10 +74,10 @@
     <div class="inputs">
         <form method="GET" action="{{ url_for('profesores') }}">
             <!--Cambiar aqui-->
-            <label for="nomina">No nomina:</label>
-            <input type="text" id="nomina" name="nomina">
-            <label for="memberName">Name:</label>
-            <input type="text" id="memberName" name="memberName">
+            <label for="nominas">No nomina:</label>
+            <input type="text" id="nominas" name="nominas">
+            <label for="memberNames">Name:</label>
+            <input type="text" id="memberNames" name="memberNames">
             <input type="submit" value="Submit">
         </form>
     </div>
@@ -93,12 +90,13 @@
             <th>nomina</th>
 
             <th>telefono</th>
-            <th>celular</th>
-            <th>carreraID</th>
             <th>curp</th>
+            <th>departamento id</th>
 
             <th>sex</th>
             <th>Address</th>
+            <th>DOB</th>
+
         </tr>
         {% for row in result %}
         <tr>
@@ -108,13 +106,14 @@
             <td> {{ row.nomina }}</td>
 
             <td> {{ row.telefono }}</td>
-            <td> {{ row.celular }}</td>
             <td> {{ row.curp }}</td>
 
-            <td> {{ row.carreraID }}</td>
+            <td> {{ row.departamentoID }}</td>
 
             <td> {{ row.sex }}</td>
-            <td> {{ row.address }}</td>
+            <td> {{ row.direccion }}</td>
+            <td> {{ row.DOB }}</td>
+
         </tr>
         {% endfor %} {% endif %}
     </table>
@@ -125,8 +124,8 @@
     <form method="POST" action="{{ url_for('del_profesor') }}">
         <!--Cambiar aqui-->
         <div>
-            <label for="matricula">No Matricula:</label>
-            <input type="text" id="matricula" name="matricula">
+            <label for="matriculadel">No Matricula:</label>
+            <input type="text" id="matriculadel" name="matriculadel">
             <input type="submit" value="Submit">
         </div>
     </form>

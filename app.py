@@ -35,13 +35,13 @@ def students():
             lName = request.form["lName"]
             matricula = request.form["matricula"]
             sex = request.form["sex"]
-            dob = request.form["dob"]
+            DOB = request.form["DOB"]
             curp = request.form["curp"]
             telefono = request.form["telefono"]
             celular = request.form["celular"]
             carreraID = request.form["carreraID"]
             direccion = request.form["direccion"]
-            _db.insert_member(fName, lName, matricula, sex, dob,
+            _db.insert_member(fName, lName, matricula, sex, DOB,
                               curp, telefono, celular, carreraID, direccion)
             print('Alumno agregado', file=sys.stdout)
 
@@ -54,8 +54,7 @@ def students():
                 member_no = request.values.get('matricula', '')
                 member_name = request.values.get('memberName', '')
                 membs = _db.list_member(member_no, member_name)
-                print('Listing member given info' + member_no +
-                      ' ' + member_name, file=sys.stdout)
+
                 return membs
 
     res = db_query()
@@ -72,7 +71,7 @@ def curso_por_alumno():
             return cursos
         else:
             if request.method == "GET":
-                matricula = request.values.get('matricula', '')
+                matricula = request.values.get('matricula','')
                 cursos = _db.list_cursos(matricula)
                 return cursos
     res = db_query()
@@ -85,11 +84,11 @@ def info_por_nomina():
     def db_query():
         _db = db.Database()
         if request.method == "POST":
-                datos = _db.list_datos()
-                return datos
+            datos = _db.list_datos()
+            return datos
         else:
             if request.method == "GET":
-                nomina = request.values.get('nomina', '')
+                nomina = request.values.get('nomina','')
                 datos = _db.list_dato(nomina)
                 return datos
     res = db_query()
@@ -97,33 +96,33 @@ def info_por_nomina():
     return render_template('info_por_nomina.html', result=res, content_type='application/json')
 
 
-
-@app.route('/horas_por_nomina', methods=["GET" , "POST"])
+@app.route('/horas_por_nomina', methods=["GET", "POST"])
 def horas_por_nomina():
     def db_query():
         _db = db.Database()
         if request.method == "POST":
-                datos = _db.list_horas()
-                return datos
+            datos = _db.list_horas()
+            return datos
         else:
             if request.method == "GET":
-                nomina = request.values.get('nomina', '')
+                nomina = request.values.get('nomina','')
                 datos = _db.list_hora(nomina)
                 return datos
     res = db_query()
 
     return render_template('horas_por_nomina.html', result=res, content_type='application/json')
 
-@app.route("/ecoa", methods= ["GET", "POST"])
+
+@app.route("/ecoa", methods=["GET", "POST"])
 def ecoa():
     def db_query():
         _db = db.Database()
         if request.method == "POST":
-                datos = _db.list_resultados()
-                return datos
+            datos = _db.list_resultados()
+            return datos
         else:
             if request.method == "GET":
-                nomina = request.values.get('nomina', '')
+                nomina = request.values.get('nomina','')
                 datos = _db.list_resultado(nomina)
                 return datos
     res = db_query()
@@ -140,28 +139,24 @@ def profesores():
             lName = request.form["lName"]
             matricula = request.form["matricula"]
             sex = request.form["sex"]
-            dob = request.form["dob"]
+            DOB = request.form["DOB"]
             curp = request.form["curp"]
             telefono = request.form["telefono"]
             nomina = request.form["nomina"]
-            celular = request.form["celular"]
-            carreraID = request.form["carreraID"]
+            departamentoID = request.form["departamentoID"]
             direccion = request.form["direccion"]
-            _db.insert_profesor(fName, lName, matricula, sex, dob,
-                                curp, telefono, nomina, celular, carreraID, direccion)
-            print('Profesor agregado', file=sys.stdout)
+            _db.insert_profesor(fName, lName, matricula, sex, DOB,
+                                curp, telefono, nomina, departamentoID, direccion)
 
             membs = _db.list_profesores()
-            print('Listing all members from normal query', file=sys.stdout)
             return membs
 
         else:
             if request.method == "GET":
-                member_no = request.values.get('nomina', '')
-                member_name = request.values.get('memberName', '')
+                member_no = request.values.get('nominas', '')
+                member_name = request.values.get('memberNames', '')
                 membs = _db.list_profesor(member_no, member_name)
-                print('Listing member given info' + member_no +
-                      ' ' + member_name, file=sys.stdout)
+
                 return membs
 
     res = db_query()
@@ -180,10 +175,8 @@ def departamento():
             telefono = request.form["telefono"]
 
             _db.insert_departamento(ID, nombre, numOficina, telefono)
-            print('departamento agregado', file=sys.stdout)
 
             deps = _db.list_dep()
-            print('Listing all members from normal query', file=sys.stdout)
             return deps
 
         else:
@@ -191,8 +184,7 @@ def departamento():
                 dep_num = request.values.get('ID', '')
                 dep_name = request.values.get('depName', '')
                 deps = _db.list_deps(dep_num, dep_name)
-                print('Listing member given info' + dep_num +
-                      ' ' + dep_name, file=sys.stdout)
+
                 return deps
 
     res = db_query()
@@ -206,7 +198,7 @@ def del_members():
         _db = db.Database()
         if request.method == "POST":
             if len(request.form) != 0:
-                member_no = request.form["matricula"]
+                member_no = request.form["matriculadel"]
                 _db.delete_member(member_no)
         membs = _db.list_members()
         print('Listing all members from normal query', file=sys.stdout)
@@ -223,10 +215,9 @@ def del_profesor():
         _db = db.Database()
         if request.method == "POST":
             if len(request.form) != 0:
-                member_no = request.form["matricula"]
+                member_no = request.form["matriculadel"]
                 _db.delete_profesor(member_no)
         membs = _db.list_profesores()
-        print('Listing all members from normal query', file=sys.stdout)
         return membs
 
     res = db_query()

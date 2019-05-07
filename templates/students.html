@@ -28,8 +28,8 @@
             </div>
 
             <div>
-                <label for="dob">Date of Birth:</label>
-                <input type="date" id="dob" name="dob">
+                <label for="DOB">Date of Birth:</label>
+                <input type="date" id="DOB" name="DOB">
             </div>
             <div>
                 <label for="direccion">Address:</label>
@@ -91,7 +91,9 @@
             <th>carreraID</th>
 
             <th>sex</th>
-            <th>Address</th>
+            <th>direccion</th>
+            <th>DOB</th>
+
         </tr>
         {% for row in result %}
         <tr>
@@ -105,7 +107,9 @@
             <td> {{ row.carreraID }}</td>
 
             <td> {{ row.sex }}</td>
-            <td> {{ row.address }}</td>
+            <td> {{ row.direccion }}</td>
+            <td> {{ row.DOB }}</td>
+
         </tr>
         {% endfor %} {% endif %}
     </table>
@@ -116,8 +120,8 @@
     <form method="POST" action="{{ url_for('del_members') }}">
         <!--Cambiar aqui-->
         <div>
-            <label for="matricula">No Matricula:</label>
-            <input type="text" id="matricula" name="matricula">
+            <label for="matriculadel">No Matricula:</label>
+            <input type="text" id="matriculadel" name="matriculadel">
             <input type="submit" value="Submit">
         </div>
     </form>

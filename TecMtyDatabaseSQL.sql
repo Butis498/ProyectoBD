@@ -1,9 +1,10 @@
-/*DROP DATABASE TecMtyDatabase;*/
+DROP DATABASE TecMtyDatabase;
 
 CREATE DATABASE TecMtyDatabase;
 
 
 USE TecMtyDatabase;
+
 
 CREATE TABLE Departamento
 (
@@ -24,6 +25,29 @@ CREATE TABLE Carrera
 	FOREIGN KEY(departamentoID) REFERENCES Departamento(ID)
 );
 
+CREATE TABLE Curso
+(
+	ID INT NOT NULL,
+	departamentoID INT NOT NULL,
+	nombre VARCHAR(50) NOT NULL,
+	hrsSemanal INT,
+	planSemestre INT,
+	descripcion VARCHAR(200),
+	PRIMARY KEY(ID),
+	FOREIGN KEY(departamentoID) REFERENCES Departamento(ID)
+);
+
+CREATE TABLE Grupo
+(
+	GrupoID int not null  ,
+	cursoID int not null,
+	semestre VARCHAR(20) NOT NULL,
+	año INT NOT NULL,
+	rECOA INT,
+	PRIMARY KEY (GrupoID),
+	FOREIGN key (cursoID) REFERENCES Curso(ID)
+);
+
 CREATE TABLE Profesores
 (
 	matricula VARCHAR(15) NOT NULL,
@@ -36,31 +60,12 @@ CREATE TABLE Profesores
 	telefono VARCHAR(30),
 	nomina INT not null UNIQUE,
 	departamentoID INT NOT NULL,
+	grupoID int not null,
 	PRIMARY KEY(matricula),
-	FOREIGN KEY(departamentoID) REFERENCES Departamento(ID)
+	FOREIGN KEY(departamentoID) REFERENCES Departamento(ID),
+	FOREIGN key(grupoID) REFERENCES Grupo (GrupoID)
 );
 
-CREATE TABLE Curso
-(
-	ID INT NOT NULL,
-	departamentoID INT NOT NULL,
-	nombre VARCHAR(50) NOT NULL,
-	hrsSemanal INT,
-	planSemestre INT,
-	descripcion VARCHAR(200),
-	PRIMARY KEY(ID),
-	FOREIGN KEY(departamentoID) REFERENCES Departamento(ID)
-);
-CREATE TABLE Grupo
-(
-	GrupoID int not null  ,
-	cursoID int not null,
-	semestre VARCHAR(20) NOT NULL,
-	año INT NOT NULL,
-	rECOA INT,
-	PRIMARY KEY (GrupoID),
-	FOREIGN key (cursoID) REFERENCES Curso(ID)
-);
 
 
 CREATE TABLE Alumno
@@ -82,91 +87,195 @@ CREATE TABLE Alumno
 
 CREATE TABLE CursoPorAlumno
 (
-	ID int NOT NULL AUTO_INCREMENT,
+	ID int NOT NULL
+	AUTO_INCREMENT,
 	cursoID int not null,
-	matriculaAlumno VARCHAR(9) NULL,
-		FOREIGN key (matriculaAlumno) REFERENCES Alumno(matricula),
-		PRIMARY key (ID),
-		FOREIGN key (cursoID) REFERENCES Curso(ID)
+	matriculaAlumno VARCHAR
+	(9) NULL,
+		FOREIGN key
+	(matriculaAlumno) REFERENCES Alumno
+	(matricula),
+		PRIMARY key
+	(ID),
+		FOREIGN key
+	(cursoID) REFERENCES Curso
+	(ID)
 );
 
 
 
-CREATE TABLE HorasLibresProfesores
-(
-	ID  int NOT NULL AUTO_INCREMENT,
-	dia char(1) NOT NULL,
+
+
+	CREATE TABLE HorasLibresProfesores
+	(
+		ID int NOT NULL
+		AUTO_INCREMENT,
+	dia char
+		(1) NOT NULL,
 	hora INT NOT NULL,
-	profesorMatricula VARCHAR(9) NOT NULL ,
-	PRIMARY KEY (ID),
-	FOREIGN key  (profesorMatricula) REFERENCES Profesores(matricula) 
+	profesorMatricula VARCHAR
+		(9) NOT NULL ,
+	PRIMARY KEY
+		(ID),
+	FOREIGN key
+		(profesorMatricula) REFERENCES Profesores
+		(matricula) 
 	
 );
 
-CREATE TABLE CursoPorProfesor(
-	matriculaProfesor VARCHAR(9) not null,
-	cursoID int not null,
-	ID int NOT NULL AUTO_INCREMENT,
-	PRIMARY key (ID),
-	FOREIGN key (cursoID) REFERENCES Curso(ID),
-	FOREIGN Key (matriculaProfesor) REFERENCES Profesores(matricula)
+		CREATE TABLE CursoPorProfesor
+		(
+			matriculaProfesor VARCHAR(9) not null,
+			cursoID int not null,
+			ID int NOT NULL
+			AUTO_INCREMENT,
+	PRIMARY key
+			(ID),
+	FOREIGN key
+			(cursoID) REFERENCES Curso
+			(ID),
+	FOREIGN Key
+			(matriculaProfesor) REFERENCES Profesores
+			(matricula)
  
 
 );
 
-INSERT INTO Departamento VALUES (1, 'Ingeniería', 101, '81-1234-5678');
 
-INSERT INTO Departamento(ID, nombre, numOficina, telefono) VALUES (2, 'Ciencias Sociales', 101, '81-1234-1234');
 
-INSERT INTO Departamento(ID, nombre, numOficina, telefono) VALUES (3, 'Economía', 101, '81-1234-1111');
+			INSERT INTO Departamento
+			VALUES
+				(1, 'Ingeniería', 101, '81-1234-5678');
 
-INSERT INTO Carrera(ID, departamentoID, nombre) VALUES (101, 1, 'ITC');
+			INSERT INTO Departamento
+				(ID, nombre, numOficina, telefono)
+			VALUES
+				(2, 'Ciencias Sociales', 101, '81-1234-1234');
 
-INSERT INTO Carrera(ID, departamentoID, nombre) VALUES (102, 1, 'Mecatronica');
+			INSERT INTO Departamento
+				(ID, nombre, numOficina, telefono)
+			VALUES
+				(3, 'Economía', 101, '81-1234-1111');
 
-INSERT INTO Carrera(ID, departamentoID, nombre) VALUES (301, 3, 'LIN');
+			INSERT INTO Carrera
+				(ID, departamentoID, nombre)
+			VALUES
+				(101, 1, 'ITC');
 
-INSERT INTO Profesores(matricula, curp, fName, lName, sex, DOB, direccion, telefono, nomina, departamentoID) VALUES ('L0012345', 'CACX485820', 'Esteban', 'Dido', 'M', '1990-7-04', 'x dirección', '81-1234-1234', 1234, 1);
+			INSERT INTO Carrera
+				(ID, departamentoID, nombre)
+			VALUES
+				(102, 1, 'Mecatronica');
 
-INSERT INTO Profesores(matricula, curp, fName, lName, sex, DOB, direccion, telefono, nomina, departamentoID) VALUES ('L0067890', 'YOLO485820', 'Marco', 'Farias', 'M', '1996-3-01', 'x dirección', '81-1234-1234', 4321, 2);
+			INSERT INTO Carrera
+				(ID, departamentoID, nombre)
+			VALUES
+				(301, 3, 'LIN');
+			INSERT INTO Curso
+				(ID, departamentoID, nombre, hrsSemanal, planSemestre, descripcion)
+			VALUES
+				(1, 1, 'Matematicas para Ingeniería', 6, 3, 'Este curso es de mates para ingenieros en tercer semestre y dura 6 horas semanales.');
 
-INSERT INTO Profesores(matricula, curp, fName, lName, sex, DOB, direccion, telefono, nomina, departamentoID) VALUES ('L0055345', 'WOWO485820', 'Elba', 'Nanero', 'F', '1980-7-25', 'x dirección', '81-1234-1234', 6234, 3);
+			INSERT INTO Curso
+				(ID, departamentoID, nombre, hrsSemanal, planSemestre, descripcion)
+			VALUES
+				(2, 1, 'Física para Ingeniería', 8, 2, 'Este curso es de mates para ingenieros en segundo semestre y dura 8 horas semanales.');
 
-INSERT INTO Curso(ID, departamentoID, nombre, hrsSemanal, planSemestre, descripcion) VALUES (1, 1, 'Matematicas para Ingeniería', 6, 3, 'Este curso es de mates para ingenieros en tercer semestre y dura 6 horas semanales.');
+			INSERT INTO Curso
+				(ID, departamentoID, nombre, hrsSemanal, planSemestre, descripcion)
+			VALUES
+				(3, 3, 'Matematicas para Licenciados', 4, 1, 'Este curso es de mates para ingenieros en primer semestre y dura 4 horas semanales.');
 
-INSERT INTO Curso(ID, departamentoID, nombre, hrsSemanal, planSemestre, descripcion) VALUES (2, 1, 'Física para Ingeniería', 8, 2, 'Este curso es de mates para ingenieros en segundo semestre y dura 8 horas semanales.');
+			INSERT INTO Grupo
+				(GrupoID, cursoID, semestre, año, rECOA)
+			VALUES
+				(1, 1, 'Fall', 2016, 90);
 
-INSERT INTO Curso(ID, departamentoID, nombre, hrsSemanal, planSemestre, descripcion) VALUES (3, 3, 'Matematicas para Licenciados', 4, 1, 'Este curso es de mates para ingenieros en primer semestre y dura 4 horas semanales.');
+			INSERT INTO Grupo
+				(GrupoID, cursoID, semestre, año, rECOA)
+			VALUES
+				(2, 1, 'Spring', 2017, 80);
 
-INSERT INTO Grupo(GrupoID, cursoID, semestre, año, rECOA) VALUES (1, 1, 'Fall', 2016, 90);
+			INSERT INTO Grupo
+				(GrupoID, cursoID, semestre, año, rECOA)
+			VALUES
+				(3, 1, 'Summer', 2017, 95);
 
-INSERT INTO Grupo(GrupoID, cursoID, semestre, año, rECOA) VALUES (2, 1, 'Spring', 2017, 80);
+			INSERT INTO Profesores
+				(matricula, curp, fName, lName, sex, DOB, direccion, telefono, nomina, departamentoID , grupoID)
+			VALUES
+				('L0012345', 'CACX485820', 'Esteban', 'Dido', 'M', '1990-7-04', 'x dirección', '81-1234-1234', 1234, 1 ,1);
 
-INSERT INTO Grupo(GrupoID, cursoID, semestre, año, rECOA) VALUES (3, 1, 'Summer', 2017, 95);
+			INSERT INTO Profesores
+				(matricula, curp, fName, lName, sex, DOB, direccion, telefono, nomina, departamentoID, grupoID)
+			VALUES
+				('L0067890', 'YOLO485820', 'Marco', 'Farias', 'M', '1996-3-01', 'x dirección', '81-1234-1234', 4321, 2 , 2);
 
-INSERT INTO Alumno(matricula, curp, fName, lName, sex, DOB, direccion, telefono, celular, carreraID) VALUES ('A01553456', 'XOXO485820', 'Juanito', 'Banana', 'M', '1999-7-25', 'x dirección', '81-1234-1234', '6234', 301);
+			INSERT INTO Profesores
+				(matricula, curp, fName, lName, sex, DOB, direccion, telefono, nomina, departamentoID , grupoID)
+			VALUES
+				('L0055345', 'WOWO485820', 'Elba', 'Nanero', 'F', '1980-7-25', 'x dirección', '81-1234-1234', 6234, 3 , 3);
 
-INSERT INTO Alumno(matricula, curp, fName, lName, sex, DOB, direccion, telefono, celular, carreraID) VALUES ('A02553456', 'XOXC485820', 'Maria', 'Rosado', 'F', '1998-7-25', 'x dirección', '81-1234-1234', '6234', 101);
 
-INSERT INTO Alumno(matricula, curp, fName, lName, sex, DOB, direccion, telefono, celular, carreraID) VALUES ('A05553456', 'XOOL485820', 'Humberto', 'Rateira', 'M', '1997-7-25', 'x dirección', '81-1234-1234', '6234', 101);
+			INSERT INTO Alumno
+				(matricula, curp, fName, lName, sex, DOB, direccion, telefono, celular, carreraID)
+			VALUES
+				('A01553456', 'XOXO485820', 'Juanito', 'Banana', 'M', '1999-7-25', 'x dirección', '81-1234-1234', '6234', 301);
 
-INSERT INTO CursoPorAlumno(ID, cursoID, matriculaAlumno) VALUES (1, 1, 'A01553456');
+			INSERT INTO Alumno
+				(matricula, curp, fName, lName, sex, DOB, direccion, telefono, celular, carreraID)
+			VALUES
+				('A02553456', 'XOXC485820', 'Maria', 'Rosado', 'F', '1998-7-25', 'x dirección', '81-1234-1234', '6234', 101);
 
-INSERT INTO CursoPorAlumno(ID, cursoID, matriculaAlumno) VALUES (2, 2, 'A01553456');
+			INSERT INTO Alumno
+				(matricula, curp, fName, lName, sex, DOB, direccion, telefono, celular, carreraID)
+			VALUES
+				('A05553456', 'XOOL485820', 'Humberto', 'Rateira', 'M', '1997-7-25', 'x dirección', '81-1234-1234', '6234', 101);
 
-INSERT INTO CursoPorAlumno(ID, cursoID, matriculaAlumno) VALUES (3, 3, 'A05553456');
+			INSERT INTO CursoPorAlumno
+				(ID, cursoID, matriculaAlumno)
+			VALUES
+				(1, 1, 'A01553456');
 
-INSERT INTO HorasLibresProfesores(dia, hora, profesorMatricula) VALUES ('L', 16, 'L0012345');
+			INSERT INTO CursoPorAlumno
+				(ID, cursoID, matriculaAlumno)
+			VALUES
+				(2, 2, 'A01553456');
 
-INSERT INTO HorasLibresProfesores(dia, hora, profesorMatricula) VALUES ('M', 12, 'L0012345');
+			INSERT INTO CursoPorAlumno
+				(ID, cursoID, matriculaAlumno)
+			VALUES
+				(3, 3, 'A05553456');
 
-INSERT INTO HorasLibresProfesores(dia, hora, profesorMatricula) VALUES ('X', 10, 'L0012345');
+			INSERT INTO HorasLibresProfesores
+				(dia, hora, profesorMatricula)
+			VALUES
+				('L', 16, 'L0012345');
 
-INSERT INTO CursoPorProfesor(matriculaProfesor, cursoID) VALUES ('L0012345', 1);
+			INSERT INTO HorasLibresProfesores
+				(dia, hora, profesorMatricula)
+			VALUES
+				('M', 12, 'L0012345');
 
-INSERT INTO CursoPorProfesor(matriculaProfesor, cursoID) VALUES ('L0067890', 2);
+			INSERT INTO HorasLibresProfesores
+				(dia, hora, profesorMatricula)
+			VALUES
+				('X', 10, 'L0012345');
 
-INSERT INTO CursoPorProfesor(matriculaProfesor, cursoID) VALUES ('L0055345', 3);
+			INSERT INTO CursoPorProfesor
+				(matriculaProfesor, cursoID)
+			VALUES
+				('L0012345', 1);
+
+			INSERT INTO CursoPorProfesor
+				(matriculaProfesor, cursoID)
+			VALUES
+				('L0067890', 2);
+
+			INSERT INTO CursoPorProfesor
+				(matriculaProfesor, cursoID)
+			VALUES
+				('L0055345', 3);
 
 
 

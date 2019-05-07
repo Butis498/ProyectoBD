@@ -25,7 +25,6 @@ class Database:
                 SELECT * 
                 FROM Alumno
                 '''
-        print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         result = self.cur.fetchall()
 
@@ -37,7 +36,6 @@ class Database:
                 FROM Profesores p , Curso c, CursoPorProfesor cpp
                 WHERE p.matricula = cpp.matriculaProfesor AND c.ID = cpp.cursoID
                 '''
-        print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         result = self.cur.fetchall()
 
@@ -45,9 +43,11 @@ class Database:
 
     def list_resultados(self):
         query = '''
-                
+                SELECT g.rECOA , c.ID , c.nombre , g.GrupoID , g.semestre , g.año
+                FROM Grupo g, Profesores p, Curso c , CursoPorProfesor cpp
+                WHERE g.cursoID = c.ID AND cpp.matriculaProfesor = p.matricula
+                GROUP by c.ID,g.rECOA  , c.nombre , g.GrupoID , g.semestre , g.año;
                 '''
-        print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         result = self.cur.fetchall()
 
@@ -59,7 +59,6 @@ class Database:
                 FROM Profesores p , HorasLibresProfesores h
                 WHERE p.matricula = h.profesorMatricula
                 '''
-        print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         result = self.cur.fetchall()
 
@@ -70,19 +69,17 @@ class Database:
                 SELECT * 
                 FROM Profesores
                 '''
-        print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         result = self.cur.fetchall()
 
         return result
 
-
     def list_cur(self):
         query = '''
-                SELECT * 
-                FROM CursoPorAlumno
+                SELECT c.nombre
+                FROM Curso c, Alumno a , CursoPorAlumno ca
+                WHERE c.ID = ca.cursoID AND ca.matriculaAlumno = a.matricula 
                 '''
-        print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         result = self.cur.fetchall()
 
@@ -93,35 +90,30 @@ class Database:
                 SELECT * 
                 FROM Departamento
                 '''
-        print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         result = self.cur.fetchall()
 
         return result
 
     def list_member(self, member_no, member_name):
-        member_name = ("'"+ member_name + "'")
 
         query = '''
                 SELECT *
                 FROM Alumno
                 '''
         if member_no != '':
-            query += 'WHERE matricula = {}'.format(member_no)
+            query += 'WHERE matricula = \'{}\''.format(member_no)
             if member_name != '':
                 query += 'AND fName = \'{}\''.format(member_name)
         elif member_name != '':
             query += 'WHERE fName = \'{}\''.format(member_name)
 
-        print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         result = self.cur.fetchall()
 
         return result
 
-
     def list_profesor(self, member_no, member_name):
-        member_name = ("'"+ member_name + "'")
 
         query = '''
                 SELECT *
@@ -134,14 +126,12 @@ class Database:
         elif member_name != '':
             query += 'WHERE fName = \'{}\''.format(member_name)
 
-        print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         result = self.cur.fetchall()
 
         return result
 
     def list_cursos(self, matricula):
-        matricula = ("'"+ matricula + "'")
 
         query = '''
                 SELECT c.nombre
@@ -149,10 +139,8 @@ class Database:
                 WHERE c.ID = ca.cursoID AND ca.matriculaAlumno = a.matricula 
                 '''
         if matricula != '':
-            query += 'AND a.matricula = {}'.format(matricula)
-            
+            query += 'AND a.matricula = \'{}\''.format(matricula)
 
-        print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         result = self.cur.fetchall()
 
@@ -167,9 +155,7 @@ class Database:
                 '''
         if nomina != '':
             query += 'AND p.nomina = {}'.format(nomina)
-    
 
-        print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         result = self.cur.fetchall()
 
@@ -180,19 +166,19 @@ class Database:
         query = '''
                 SELECT g.rECOA , c.ID , c.nombre , g.GrupoID , g.semestre ,g.año
                 FROM Grupo g, Profesores p, Curso c , CursoPorProfesor cpp 
-                WHERE g.cursoID = c.ID AND  cpp.matriculaProfesor = p.matricula
+                WHERE g.cursoID = c.ID AND  p.grupoID = g.GrupoID AND p.matricula = cpp.matriculaProfesor
                 '''
         if nomina != '':
             query += 'AND p.nomina = {}'.format(nomina)
-    
 
-        print('Query: {}'.format(query), file=sys.stdout)
+        query += '''
+                 GROUP by c.ID , c.nombre , g.GrupoID , g.semestre ,g.año
+                 '''
+
         self.cur.execute(query)
         result = self.cur.fetchall()
 
         return result
-
-        
 
     def list_hora(self, nomina):
 
@@ -203,17 +189,13 @@ class Database:
                 '''
         if nomina != '':
             query += 'AND p.nomina = {}'.format(nomina)
-    
 
-        print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         result = self.cur.fetchall()
 
         return result
 
-
     def list_deps(self, dep_num, dep_name):
-        dep_name = ("'"+ dep_name + "'")
         query = '''
                 SELECT *
                 FROM Departamento
@@ -225,60 +207,55 @@ class Database:
         elif dep_name != '':
             query += 'WHERE nombre = \'{}\''.format(dep_name)
 
-        print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         result = self.cur.fetchall()
 
         return result
 
+    def insert_member(self, fName, lName, matricula, sex, DOB, curp, telefono, celular, carreraID, direccion):
 
-    def insert_member(self, fName, lName, matricula, sex, dob, curp, telefono, celular, carreraID, direccion):
-        direccion = ("'"+ direccion + "'")
         query = '''
-                INSERT INTO Alumno (fName, lName, matricula, sex, dob,curp,telefono,celular,carreraID, direccion)
-                VALUES ('{}', '{}', '{}', '{}', '{}','{}', '{}', '{}', '{}', '{}')
-                '''.format(fName, lName, matricula, sex, dob, curp, telefono, celular, carreraID, direccion)
+                INSERT INTO Alumno (fName, lName, matricula, sex, DOB,curp,telefono,celular,carreraID, direccion)
+                VALUES ('{}', '{}', '{}', '{}', '{}','{}', '{}', '{}', '{}', \'{}\')
+                '''.format(fName, lName, matricula, sex, DOB, curp, telefono, celular, carreraID, direccion)
         print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         self.con.commit()
 
-    def insert_profesor(self, fName, lName, matricula, sex, dob, curp, telefono,nomina, celular, carreraID, direccion):
-        direccion = ("'"+ direccion + "'")
+    def insert_profesor(self, fName, lName, matricula, sex, DOB, curp, telefono, nomina,  departamentoID, direccion):
 
         query = '''
-                INSERT INTO Profesores (fName, lName, matricula, sex, dob,curp,telefono,nomina,celular,carreraID, direccion)
-                VALUES ('{}', '{}', '{}', '{}', '{}','{}', '{}', '{}', '{}', '{}', '{}')
-                '''.format(fName, lName, matricula, sex, dob, curp, telefono,nomina, celular, carreraID, direccion)
+                INSERT INTO Profesores (fName, lName, matricula, sex, DOB,curp,telefono,nomina,departamentoID, direccion)
+                VALUES ('{}', '{}', '{}', '{}', '{}','{}', '{}', '{}', '{}', \'{}\')
+                '''.format(fName, lName, matricula, sex, DOB, curp, telefono, nomina, departamentoID, direccion)
         print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         self.con.commit()
 
-    def insert_departamento(self, ID , nombre , numOficina , telefono):
+    def insert_departamento(self, ID, nombre, numOficina, telefono):
         query = '''
                 INSERT INTO Departamento (ID , nombre , numOficina , telefono)
                 VALUES ('{}', '{}', '{}', '{}')
-                '''.format(ID , nombre , numOficina , telefono)
+                '''.format(ID, nombre, numOficina, telefono)
         print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         self.con.commit()
 
-
     def delete_member(self, member_no):
 
-        member_no = ("'"+  member_no +"'")
         query = '''
                 DELETE FROM Alumno
-                WHERE matricula = {}
+                WHERE matricula = \'{}\'
                 '''.format(member_no)
         print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         self.con.commit()
 
     def delete_profesor(self, member_no):
-        
+
         query = '''
                 DELETE FROM Profesores
-                WHERE matricula = {}
+                WHERE matricula = \'{}\'
                 '''.format(member_no)
         print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
@@ -292,5 +269,3 @@ class Database:
         print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         self.con.commit()
-
-
