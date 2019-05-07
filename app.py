@@ -89,12 +89,46 @@ def info_por_nomina():
                 return datos
         else:
             if request.method == "GET":
-                matricula = request.values.get('nomina', '')
-                datos = _db.list_dato(matricula)
+                nomina = request.values.get('nomina', '')
+                datos = _db.list_dato(nomina)
                 return datos
     res = db_query()
 
     return render_template('info_por_nomina.html', result=res, content_type='application/json')
+
+
+
+@app.route('/horas_por_nomina', methods=["GET" , "POST"])
+def horas_por_nomina():
+    def db_query():
+        _db = db.Database()
+        if request.method == "POST":
+                datos = _db.list_horas()
+                return datos
+        else:
+            if request.method == "GET":
+                nomina = request.values.get('nomina', '')
+                datos = _db.list_hora(nomina)
+                return datos
+    res = db_query()
+
+    return render_template('horas_por_nomina.html', result=res, content_type='application/json')
+
+@app.route("/ecoa", methods= ["GET", "POST"])
+def ecoa():
+    def db_query():
+        _db = db.Database()
+        if request.method == "POST":
+                datos = _db.list_resultados()
+                return datos
+        else:
+            if request.method == "GET":
+                nomina = request.values.get('nomina', '')
+                datos = _db.list_resultado(nomina)
+                return datos
+    res = db_query()
+
+    return render_template('ecoa.html', result=res, content_type='application/json')
 
 
 @app.route('/profesores', methods=["GET", "POST"])

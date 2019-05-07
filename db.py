@@ -43,6 +43,28 @@ class Database:
 
         return result
 
+    def list_resultados(self):
+        query = '''
+                
+                '''
+        print('Query: {}'.format(query), file=sys.stdout)
+        self.cur.execute(query)
+        result = self.cur.fetchall()
+
+        return result
+
+    def list_horas(self):
+        query = '''
+                SELECT p.nomina , p.fName , h.dia , h.hora
+                FROM Profesores p , HorasLibresProfesores h
+                WHERE p.matricula = h.profesorMatricula
+                '''
+        print('Query: {}'.format(query), file=sys.stdout)
+        self.cur.execute(query)
+        result = self.cur.fetchall()
+
+        return result
+
     def list_profesores(self):
         query = '''
                 SELECT * 
@@ -136,14 +158,48 @@ class Database:
 
         return result
 
-        
-
     def list_dato(self, nomina):
 
         query = '''
                 SELECT p.nomina , p.fName , c.nombre
                 FROM Profesores p , Curso c, CursoPorProfesor cpp
                 WHERE p.matricula = cpp.matriculaProfesor AND c.ID = cpp.cursoID
+                '''
+        if nomina != '':
+            query += 'AND p.nomina = {}'.format(nomina)
+    
+
+        print('Query: {}'.format(query), file=sys.stdout)
+        self.cur.execute(query)
+        result = self.cur.fetchall()
+
+        return result
+
+    def list_resultado(self, nomina):
+
+        query = '''
+                SELECT g.rECOA , c.ID , c.nombre , g.GrupoID , g.semestre ,g.año
+                FROM Grupo g, Profesores p, Curso c , CursoPorProfesor cpp 
+                WHERE g.cursoID = c.ID AND  cpp.matriculaProfesor = p.matricula
+                '''
+        if nomina != '':
+            query += 'AND p.nomina = {}'.format(nomina)
+    
+
+        print('Query: {}'.format(query), file=sys.stdout)
+        self.cur.execute(query)
+        result = self.cur.fetchall()
+
+        return result
+
+        
+
+    def list_hora(self, nomina):
+
+        query = '''
+                SELECT p.nomina , p.fName , h.dia , h.hora
+                FROM Profesores p , HorasLibresProfesores h
+                WHERE p.matricula = h.profesorMatricula
                 '''
         if nomina != '':
             query += 'AND p.nomina = {}'.format(nomina)

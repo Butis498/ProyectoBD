@@ -7,15 +7,15 @@
 <head>
     <link rel="stylesheet" type="text/css" href="/static/styles.css">
     <meta charset="UTF-8">
-    <title>datos por nomina</title>
+    <title>ecoa</title>
 </head>
 
 <body>
     <div>
-        <h1>Datos por nomina </h1>
+        <h1>Ecoa</h1>
     </div>
     <div>
-        <form method="GET" action="{{ url_for('info_por_nomina')}}">
+        <form method="GET" action="{{ url_for('ecoa')}}">
             <div>
                 <label for="nomina">No nomina:</label>
                 <input type="text" id="nomina" name="nomina">
@@ -26,18 +26,24 @@
 
 
     <hr>
-    <table id="info_por_nomina" style="width:100%">
+    <table id="ecoa" style="width:100%">
         {% if result %}
         <tr>
-            <th>nomina</th>
-            <th>fName</th>
-            <th>curso</th>
+            <th>Resultado</th>
+            <th>CursoNO</th>
+            <th>Nombre</th>
+            <th>GropNo</th>
+            <th>Semestre</th>
+            <th>año</th>
         </tr>
         {% for row in result %}
         <tr>
-            <td> {{ row.nomina }}</td>
-            <td> {{ row.fName }}</td>
-            <td> {{ row.cursos }}</td>
+            <td> {{ row.rECOA }}</td>
+            <td> {{ row.ID }}</td>
+            <td> {{ row.nombre }}</td>
+            <td>{{row.GrupoID}}</td>
+            <td>{{row.semestre}}</td>
+            <td>{{row.año}}</td>
         </tr>
         {% endfor %} {% endif %}
     </table>
