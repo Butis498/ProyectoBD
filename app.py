@@ -169,19 +169,19 @@ def departamento():
     def db_query():
         _db = db.Database()
         if request.method == "POST":
-            ID = request.form["ID"]
+            DepID = request.form["DepID"]
             nombre = request.form["nombre"]
             numOficina = request.form["numOficina"]
             telefono = request.form["telefono"]
 
-            _db.insert_departamento(ID, nombre, numOficina, telefono)
+            _db.insert_departamento(DepID, nombre, numOficina, telefono)
 
             deps = _db.list_dep()
             return deps
 
         else:
             if request.method == "GET":
-                dep_num = request.values.get('ID', '')
+                dep_num = request.values.get('DepsID', '')
                 dep_name = request.values.get('depName', '')
                 deps = _db.list_deps(dep_num, dep_name)
 
@@ -231,7 +231,7 @@ def del_dep():
         _db = db.Database()
         if request.method == "POST":
             if len(request.form) != 0:
-                dep_id = request.form["ID"]
+                dep_id = request.form["DelID"]
                 _db.delete_dep(dep_id)
         dep = _db.list_dep()
         print('Listing all members from normal query', file=sys.stdout)

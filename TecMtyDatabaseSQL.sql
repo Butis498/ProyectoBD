@@ -8,11 +8,11 @@ USE TecMtyDatabase;
 
 CREATE TABLE Departamento
 (
-	ID INT NOT NULL,
+	DepID INT NOT NULL,
 	nombre VARCHAR(50) NOT NULL,
 	numOficina INT,
 	telefono VARCHAR(30),
-	PRIMARY KEY(ID)
+	PRIMARY KEY(DepID)
 );
 
 
@@ -22,7 +22,7 @@ CREATE TABLE Carrera
 	departamentoID INT NOT NULL,
 	nombre VARCHAR(50) NOT NULL,
 	PRIMARY KEY(ID),
-	FOREIGN KEY(departamentoID) REFERENCES Departamento(ID)
+	FOREIGN KEY(departamentoID) REFERENCES Departamento(DepID)
 );
 
 CREATE TABLE Curso
@@ -34,7 +34,7 @@ CREATE TABLE Curso
 	planSemestre INT,
 	descripcion VARCHAR(200),
 	PRIMARY KEY(ID),
-	FOREIGN KEY(departamentoID) REFERENCES Departamento(ID)
+	FOREIGN KEY(departamentoID) REFERENCES Departamento(DepID)
 );
 CREATE TABLE Profesores
 (
@@ -49,7 +49,7 @@ CREATE TABLE Profesores
 	nomina INT not null UNIQUE,
 	departamentoID INT NOT NULL,
 	PRIMARY KEY(matricula),
-	FOREIGN KEY(departamentoID) REFERENCES Departamento(ID)
+	FOREIGN KEY(departamentoID) REFERENCES Departamento(DepID)
 );
 
 
@@ -148,12 +148,12 @@ CREATE TABLE CursoPorAlumno
 				(1, 'Ingeniería', 101, '81-1234-5678');
 
 			INSERT INTO Departamento
-				(ID, nombre, numOficina, telefono)
+				(DepID, nombre, numOficina, telefono)
 			VALUES
 				(2, 'Ciencias Sociales', 101, '81-1234-1234');
 
 			INSERT INTO Departamento
-				(ID, nombre, numOficina, telefono)
+				(DepID, nombre, numOficina, telefono)
 			VALUES
 				(3, 'Economía', 101, '81-1234-1111');
 

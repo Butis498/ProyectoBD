@@ -16,7 +16,7 @@
         <form method="POST" action="{{ url_for('departamento') }}">
             <div>
                 <label for=" ">ID:</label>
-                <input type="text" id="ID" name="ID">
+                <input type="text" id="DepID" name="DepID">
             </div>
             <div>
                 <label for="nombre">nombre:</label>
@@ -42,8 +42,8 @@
     <div class="inputs">
         <form method="GET" action="{{ url_for('departamento') }}">
             <!--Cambiar aqui-->
-            <label for="ID">ID:</label>
-            <input type="text" id="ID" name="ID">
+            <label for="DepsID">ID:</label>
+            <input type="text" id="DepsID" name="DepsID">
             <label for="depName">Name:</label>
             <input type="text" id="depName" name="depName">
             <input type="submit" value="Submit">
@@ -52,7 +52,7 @@
     <table id="Departamento" style="width:100%">
         {% if result %}
         <tr>
-            <th>ID</th>
+            <th>DepID</th>
             <th>nombre</th>
             <th>numOficina</th>
 
@@ -60,7 +60,7 @@
         </tr>
         {% for row in result %}
         <tr>
-            <td> {{ row.ID }}</td>
+            <td> {{ row.DepID }}</td>
             <td> {{ row.nombre }}</td>
             <td> {{ row.numOficina }}</td>
             <td> {{ row.telefono }}</td>
@@ -75,8 +75,8 @@
     <form method="POST" action="{{ url_for('del_dep') }}">
         <!--Cambiar aqui-->
         <div>
-            <label for="ID">Curso ID:</label>
-            <input type="text" id="ID" name="ID">
+            <label for="DelID">Curso ID:</label>
+            <input type="text" id="DelID" name="DelID">
             <input type="submit" value="Submit">
         </div>
     </form>

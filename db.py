@@ -91,7 +91,6 @@ class Database:
         query = '''
                 SELECT * 
                 FROM Departamento
-                OREDER by ID
                 '''
         self.cur.execute(query)
         result = self.cur.fetchall()
@@ -105,12 +104,12 @@ class Database:
                 FROM Alumno
                 '''
         if member_no != '':
-            query += 'WHERE matricula = \'{}\''.format(member_no)
+            query += ' WHERE matricula = \'{}\''.format(member_no)
             if member_name != '':
-                query += 'AND fName = \'{}\''.format(member_name)
+                query += ' AND fName = \'{}\''.format(member_name)
         elif member_name != '':
-            query += 'WHERE fName = \'{}\''.format(member_name)
-        query += 'ORDER by matricula'
+            query += ' WHERE fName = \'{}\''.format(member_name)
+        query += ' ORDER by matricula'
 
 
         self.cur.execute(query)
@@ -125,12 +124,12 @@ class Database:
                 FROM Profesores
                 '''
         if member_no != '':
-            query += 'WHERE nomina = {}'.format(member_no)
+            query += ' WHERE nomina = {}'.format(member_no)
             if member_name != '':
-                query += 'AND fName = \'{}\''.format(member_name)
+                query += ' AND fName = \'{}\''.format(member_name)
         elif member_name != '':
-            query += 'WHERE fName = \'{}\''.format(member_name)
-        query += 'ORDER by nomina'
+            query += ' WHERE fName = \'{}\''.format(member_name)
+        query += ' ORDER by nomina'
 
 
         self.cur.execute(query)
@@ -198,7 +197,7 @@ class Database:
                 WHERE p.matricula = h.profesorMatricula
                 '''
         if nomina != '':
-            query += 'AND p.nomina = {}'.format(nomina)
+            query += ' AND p.nomina = {}'.format(nomina)
 
         self.cur.execute(query)
         result = self.cur.fetchall()
@@ -211,12 +210,11 @@ class Database:
                 FROM Departamento
                 '''
         if dep_num != '':
-            query += 'WHERE ID = {}'.format(dep_num)
+            query += 'WHERE DepID = {}'.format(dep_num)
             if dep_name != '':
-                query += 'AND nombre = \'{}\''.format(dep_name)
+                query += ' AND nombre = \'{}\''.format(dep_name)
         elif dep_name != '':
-            query += 'WHERE nombre = \'{}\''.format(dep_name)
-        query += 'ORDER by ID' 
+            query += ' WHERE nombre = \'{}\''.format(dep_name)
         
 
         self.cur.execute(query)
@@ -244,11 +242,11 @@ class Database:
         self.cur.execute(query)
         self.con.commit()
 
-    def insert_departamento(self, ID, nombre, numOficina, telefono):
+    def insert_departamento(self, DepID, nombre, numOficina, telefono):
         query = '''
-                INSERT INTO Departamento (ID , nombre , numOficina , telefono)
-                VALUES ('{}', '{}', '{}', '{}')
-                '''.format(ID, nombre, numOficina, telefono)
+                INSERT INTO Departamento (DepID , nombre , numOficina , telefono)
+                VALUES ('{}', \'{}\', '{}', '{}')
+                '''.format(DepID, nombre, numOficina, telefono)
         print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
         self.con.commit()
@@ -276,7 +274,7 @@ class Database:
     def delete_dep(self, dep_id):
         query = '''
                 DELETE FROM Departamento
-                WHERE ID = {}
+                WHERE DepID = {}
                 '''.format(dep_id)
         print('Query: {}'.format(query), file=sys.stdout)
         self.cur.execute(query)
