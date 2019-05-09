@@ -24,6 +24,7 @@ class Database:
         query = '''
                 SELECT * 
                 FROM Alumno
+                ORDER by matricula
                 '''
         self.cur.execute(query)
         result = self.cur.fetchall()
@@ -47,6 +48,7 @@ class Database:
                 FROM Grupo g, Profesores p, Curso c , CursoPorProfesor cpp
                 WHERE g.cursoID = c.ID AND cpp.matriculaProfesor = p.matricula
                 GROUP by c.ID,g.rECOA  , c.nombre , g.GrupoID , g.semestre , g.año;
+                ORDER by año , semestre , cursoID , GrupoID
                 '''
         self.cur.execute(query)
         result = self.cur.fetchall()
@@ -89,6 +91,7 @@ class Database:
         query = '''
                 SELECT * 
                 FROM Departamento
+                OREDER by ID
                 '''
         self.cur.execute(query)
         result = self.cur.fetchall()
@@ -107,6 +110,8 @@ class Database:
                 query += 'AND fName = \'{}\''.format(member_name)
         elif member_name != '':
             query += 'WHERE fName = \'{}\''.format(member_name)
+        query += 'ORDER by matricula'
+
 
         self.cur.execute(query)
         result = self.cur.fetchall()
@@ -125,6 +130,8 @@ class Database:
                 query += 'AND fName = \'{}\''.format(member_name)
         elif member_name != '':
             query += 'WHERE fName = \'{}\''.format(member_name)
+        query += 'ORDER by nomina'
+
 
         self.cur.execute(query)
         result = self.cur.fetchall()
@@ -140,6 +147,8 @@ class Database:
                 '''
         if matricula != '':
             query += 'AND a.matricula = \'{}\''.format(matricula)
+
+        query
 
         self.cur.execute(query)
         result = self.cur.fetchall()
@@ -207,6 +216,8 @@ class Database:
                 query += 'AND nombre = \'{}\''.format(dep_name)
         elif dep_name != '':
             query += 'WHERE nombre = \'{}\''.format(dep_name)
+        query += 'ORDER by ID' 
+        
 
         self.cur.execute(query)
         result = self.cur.fetchall()
